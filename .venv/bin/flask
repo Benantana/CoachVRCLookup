@@ -1,4 +1,4 @@
-#!/Users/benasantanavicius/Documents/GitHub/Robotoscraper/.venv/bin/python
+#!/Users/benasantanavicius/Documents/GitHub/Roboscraper/.venv/bin/python3.11
 # -*- coding: utf-8 -*-
 import re
 import sys
