@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Match Schedule</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='vex.png') }}">
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            background: linear-gradient(135deg, #1c2841 0%, #0a1628 100%);
+            /* VRC dark blue gradient */
+            min-height: 100vh;
+        }
+
+        .image-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            max-width: 95vw;
+            /* Limit width to 95% of viewport width */
+            border: 2px solid #c41230;
+            /* VRC red */
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            image-rendering: -webkit-optimize-contrast;
+            /* Improves text clarity in Chrome */
+            image-rendering: crisp-edges;
+            /* Improves text clarity in Firefox */
+        }
+
+        .header {
+            color: white;
+            text-align: center;
+            margin-bottom: 20px;
+            font-family: Arial, sans-serif;
+        }
+
+        .refresh-status {
+            color: #adb5bd;
+            text-align: center;
+            font-size: 14px;
+            margin-top: 20px;
+            font-family: Arial, sans-serif;
+        }
+
+        @media (min-width: 1200px) {
+            .image-container {
+                max-width: 1100px;
+                /* Limit maximum width on large screens */
+            }
+        }
+
+        .logo {
+            max-width: 150px;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            color: white;
+            margin: 10px 0;
+        }
+    </style>
+    <script>
+        function refreshImage() {
+            const img = document.getElementById('schedule');
+            const timestamp = new Date().getTime();
+            img.src = `/get_match_image/{{ event_sku }}/{{ team_prefix }}?t=${timestamp}`;
+            updateLastRefreshed();
+        }
+
+        function updateLastRefreshed() {
+            const element = document.getElementById('last-refreshed');
+            const time = new Date().toLocaleTimeString();
+            element.textContent = `Last refreshed: ${time}`;
+        }
+
+        // Refresh every 15 minutes (900000 milliseconds)
+        setInterval(refreshImage, 900000);
+
+        // Update the last refreshed time when the page loads
+        document.addEventListener('DOMContentLoaded', function () {
+            const img = document.getElementById('schedule');
+            updateLastRefreshed();
+
+            img.onerror = function () {
+                setTimeout(refreshImage, 5000); // Try again in 5 seconds if loading fails
+            };
+        });
+    </script>
+</head>
+
+<body>
+    <div>
+        <div class="header">
+            <img src="{{ url_for('static', filename='vex.png') }}" alt="VEX Robotics Logo" class="logo">
+            <h1>Match Schedule</h1>
+        </div>
+        <div class="image-container">
+            <img id="schedule" src="/get_match_image/{{ event_sku }}/{{ team_prefix }}" alt="Match Schedule">
+        </div>
+        <div class="refresh-status" id="last-refreshed"></div>
+    </div>
+</body>
+
+</html>

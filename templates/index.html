@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>VRC Team Lookup</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='vex.png') }}">
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #1c2841 0%, #0a1628 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background-color: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            border: 2px solid #c41230;
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .logo {
+            max-width: 200px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: #1c2841;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        input[type="text"] {
+            padding: 12px;
+            border: 2px solid #1c2841;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        input[type="submit"] {
+            padding: 12px;
+            background-color: #c41230;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #a30f28;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <img src="{{ url_for('static', filename='vex.png') }}" alt="VEX Robotics Logo" class="logo">
+        <h1>VRC Team Lookup</h1>
+        <form action="/get_events" method="post">
+            <input type="text" name="team_id" placeholder="Enter team number (e.g., 169A)" required>
+            <input type="submit" value="Find Events">
+        </form>
+    </div>
+
+    {% if error %}
+    <div class="error">
+        {{ error }}
+    </div>
+    {% endif %}
+
+    {% if scraped_data %}
+    <div class="result">
+        <h2>Scraped Data:</h2>
+        <ul>
+            {% for item in scraped_data %}
+            <li>{{ item }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+</body>
+
+</html>
