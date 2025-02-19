@@ -45,5 +45,3 @@ Basically, this app will let coaches find full prefix schedules for certain even
 3. Commit your changes
 4. Push to your branch
 5. Create a Pull Request
-
-## License
