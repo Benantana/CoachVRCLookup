@@ -20,7 +20,7 @@ A Python tool for scraping and analyzing VEX Robotics competition data using the
 
 3. Install required packages:
    ```bash
-   pip install python-dotenv
+   pip install -r requirements.txt
    ```
 
 4. Create a `.env` file in the project root:
